@@ -17,13 +17,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 	protected $config;
-	/* @var \phpbb\controller\helper */
 	protected $helper;
-
 	protected $user;
-
 	protected $db;
-    protected $log;
+	protected $log;
 	protected $phpbb_root_path;
 	protected $php_ext;
 
@@ -38,7 +35,7 @@ class listener implements EventSubscriberInterface
 		$this->helper = $helper;
 		$this->user = $user;
 		$this->db = $db;
-        $this->log = $log;
+		$this->log = $log;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
