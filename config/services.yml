@@ -6,6 +6,7 @@ services:
             - @controller.helper
             - @user
             - @dbal.conn
+            - @log
             - %core.root_path%
             - %core.php_ext%
         tags:

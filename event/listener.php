@@ -23,6 +23,7 @@ class listener implements EventSubscriberInterface
 	protected $user;
 
 	protected $db;
+    protected $log;
 	protected $phpbb_root_path;
 	protected $php_ext;
 
@@ -31,12 +32,13 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\controller\helper    $helper        Controller helper object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, $phpbb_root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->user = $user;
 		$this->db = $db;
+        $this->log = $log;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -78,7 +80,7 @@ class listener implements EventSubscriberInterface
 			$user_id = user_add($user_row);
 			$event['user_id'] = $user_id;
 			$event['trigger_override'] = true;
-			add_log('admin', 'LOG_USER_ADDED', $data['new_username']);
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED', time(), array($data['new_username']));
 		} else
 		{
 			$username = $event['username'];

@@ -18,6 +18,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ADD_USER'				=> 'Add new user <strong>%s</strong>?',
-	'LOG_USER_ADDED'		=> 'Upload extensions',
+	'ADD_USER'			=> 'Add new user <strong>%s</strong>?',
+	'LOG_USER_ADDED'	=> '<strong>New user added</strong><br />» %s',
 ));
