@@ -1,0 +1,12 @@
+services:
+    forumhulp.adduser.listener:
+        class: forumhulp\adduser\event\listener
+        arguments:
+            - @config
+            - @controller.helper
+            - @user
+            - @dbal.conn
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: event.listener }
