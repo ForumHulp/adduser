@@ -31,7 +31,7 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\controller\helper    $helper        Controller helper object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper,  \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
