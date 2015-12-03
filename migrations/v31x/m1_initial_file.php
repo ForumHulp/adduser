@@ -64,7 +64,7 @@ class m1_initial_file extends container_aware_migration
 					$this->container->get('request'),
 					$this->container->get('log'),
 					$this->container->get('cache'),
-					$this->phpbb_root_path			
+					$this->phpbb_root_path
 				);
 				$this->container->set('forumhulp.helper', $forumhulp_helper);
 			}
@@ -72,7 +72,7 @@ class m1_initial_file extends container_aware_migration
 		} else
 		{
 			$this->container->get('user')->add_lang_ext('forumhulp/adduser', 'info_acp_adduser');
-			trigger_error($this->container->get('user')->lang['FH_HELPER_NOTICE'], E_USER_WARNING);	
+			trigger_error($this->container->get('user')->lang['FH_HELPER_NOTICE'], E_USER_WARNING);
 		}
 	}
 
