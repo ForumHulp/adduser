@@ -17,8 +17,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 	protected $config;
+	/* @var \phpbb\controller\helper */
 	protected $helper;
+
 	protected $user;
+
 	protected $db;
 	protected $log;
 	protected $phpbb_root_path;
@@ -35,7 +38,7 @@ class listener implements EventSubscriberInterface
 		$this->helper = $helper;
 		$this->user = $user;
 		$this->db = $db;
-		$this->log = $log;
+		$this->log				= $log;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -43,7 +46,8 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.acp_user_add'	=> 'add_user',
+			'core.acp_user_add'			=> 'add_user',
+			'core.user_add_modify_data'	=> 'change_email'
 		);
 	}
 
@@ -55,20 +59,16 @@ class listener implements EventSubscriberInterface
 			{
 				include_once($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 			}
-			$data = array('new_username' => utf8_normalize_nfc(request_var('username', '', true)));
-			$new_password = str_split(base64_encode(md5(time() . $data['new_username'])), $this->config['min_pass_chars'] + rand(3, 5));
-			$data['new_password'] = $new_password[0];
-			$sql = 'SELECT group_id
-					FROM ' . GROUPS_TABLE . "
-					WHERE group_name = 'REGISTERED' AND group_type = " . GROUP_SPECIAL;
+
+			$sql = 'SELECT group_id FROM ' . GROUPS_TABLE . " WHERE group_name = 'REGISTERED' AND group_type = " . GROUP_SPECIAL;
 			$result = $this->db->sql_query($sql);
 			$group_id = $this->db->sql_fetchfield('group_id');
 			$this->db->sql_freeresult($result);
 
 			$user_row = array(
-				'username'				=> utf8_normalize_nfc(request_var('username', '', true)),
-				'user_password'			=> md5($data['new_password']),
-				'user_email'			=> '',
+				'username'				=> utf8_normalize_nfc($event['username']),
+				'user_password'			=> '',
+				'user_email'			=> 'adduser@' . $this->config['server_name'],
 				'group_id'				=> (int) $group_id,
 				'user_type'				=> USER_NORMAL,
 				'user_ip'				=> $this->user->ip,
@@ -77,7 +77,7 @@ class listener implements EventSubscriberInterface
 			$user_id = user_add($user_row);
 			$event['user_id'] = $user_id;
 			$event['trigger_override'] = true;
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_USER_ADDED', time(), array($data['new_username']));
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->data['session_ip'], 'LOG_USER_ADDED', false, array($user_row['username']));
 		} else
 		{
 			$username = $event['username'];
@@ -91,5 +91,12 @@ class listener implements EventSubscriberInterface
 				'action'			=> 'add_user',
 			)));
 		}
+	}
+
+	public function change_email($event)
+	{
+		$sql_ary = $event['sql_ary'];
+		$sql_ary['user_email'] = '';
+		$event['sql_ary'] = $sql_ary;
 	}
 }

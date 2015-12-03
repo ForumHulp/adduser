@@ -16,8 +16,6 @@ You can install this on the latest copy of the develop branch ([phpBB 3.1-dev](h
 2. Navigate in the ACP to `Customise -> Extension Management -> Extensions`.
 3. Click Add user => `Enable`.
 
-Note: This extension is in development. Installation is only recommended for testing purposes and is not supported on live boards. This extension will be officially released following phpBB 3.1.0. Extension depends on two core changes.
-
 ## Uninstallation
 Navigate in the ACP to `Customise -> Extension Management -> Extensions` and click Add user => `Disable`.
 
