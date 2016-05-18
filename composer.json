@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "Add user gives the admin the possibility to add a new user in ACP. After adding you can manage the new user as you are used in user management.",
 	"homepage": "http://forumhulp.com",
-	"version": "3.1.0",
+	"version": "3.1.1",
 	"keywords": ["forumhulp", "phpbb", "extension", "add user", "pb"],
 	"license": "GPL-2.0",
 	"authors": [
