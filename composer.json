@@ -25,8 +25,8 @@
         },
 		"version-check": {
 			"host": "forumhulp.com",
-			"directory": "/ext",
-			"filename": "index.php?id=33"
+			"directory": "/versioncheck",
+			"filename": "add-user"
 		}
 	}
 }
